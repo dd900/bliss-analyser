@@ -1,5 +1,8 @@
-# Use Alpine as the base image
-FROM alpine:latest
+# Use Ubuntu as the base image
+FROM ubuntu:20.04
+
+# Install any necessary dependencies
+RUN apt-get update && apt-get install -y ffmpeg
 
 RUN mkdir /app
 RUN mkdir /db
@@ -11,7 +14,7 @@ WORKDIR /app
 COPY ./releases /app
 
 # Make sure the binary is executable
-RUN chmod +x /app/bliss-analyser
+RUN chmod +x /app/bliss-analyser-x86-ffmpeg5
 
 # Add this to keep the container running
 CMD ["sh", "-c", "tail -f /dev/null"]
