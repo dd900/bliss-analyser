@@ -12,3 +12,6 @@ COPY ./releases /app
 
 # Make sure the binary is executable
 RUN chmod +x /app/bliss-analyser
+
+# Add this to keep the container running
+CMD ["sh", "-c", "tail -f /dev/null"]
