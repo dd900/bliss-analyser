@@ -1,8 +1,11 @@
 # Use Ubuntu as the base image
 FROM ubuntu:20.04
 
-# Install necessary runtime dependencies
-RUN apt-get update && apt-get install -y libavutil libavcodec libavformat libavfilter libavdevice libswresample libfftw3 ffmpeg && rm -rf /var/lib/apt/lists/*
+# Enable universe repository (if not already enabled)
+RUN add-apt-repository universe
+
+# Install FFmpeg and necessary libraries
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
 RUN mkdir /db
