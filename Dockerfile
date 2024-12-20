@@ -5,7 +5,10 @@ FROM ubuntu:20.04
 RUN add-apt-repository ppa:savoury1/ffmpeg5
 RUN add-apt-repository ppa:savoury1/ffmpeg4
 
-# Install FFmpeg and necessary libraries
+# Install FFmpeg
+RUN apt-get update && apt-get -y install ffmpeg
+
+# Install FFmpeg5 and necessary libraries
 RUN apt-get update && apt-get -y full-upgrade && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
