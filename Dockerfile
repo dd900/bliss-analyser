@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 RUN add-apt-repository ppa:savoury1/ffmpeg5
 
 # Install FFmpeg and necessary libraries
-RUN apt-get update && apt-get install -y libavcodec59 libavdevice59 libavfilter8 libavformat59 libsdl2-2.0-0 ffmpeg && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
 RUN mkdir /db
