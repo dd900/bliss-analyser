@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y \
 
 # Add FFmpeg 5 PPA repository
 RUN add-apt-repository ppa:savoury1/ffmpeg5
+RUN add-apt-repository ppa:savoury1/ffmpeg4
 
 # Install FFmpeg and necessary libraries
-RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y full-upgrade && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
 RUN mkdir /db
@@ -24,7 +25,7 @@ WORKDIR /app
 COPY ./releases /app
 
 # Make sure the binary is executable
-RUN chmod +x /app/bliss-analyser-x86-ffmpeg5
+RUN chmod +x /app/bliss-analyser
 
 # Add this to keep the container running
 CMD ["sh", "-c", "tail -f /dev/null"]
