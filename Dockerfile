@@ -1,16 +1,6 @@
 # Use Ubuntu as the base image
 FROM ubuntu:20.04
 
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y software-properties-common wget ca-certificates ffmpeg
-
-# Add FFmpeg 5 PPA repository
-RUN add-apt-repository ppa:savoury1/ffmpeg5
-RUN add-apt-repository ppa:savoury1/ffmpeg4
-
-# Install FFmpeg5 and necessary libraries
-RUN apt-get update && apt-get -y full-upgrade && rm -rf /var/lib/apt/lists/*
-
 RUN mkdir /app
 RUN mkdir /db
 
