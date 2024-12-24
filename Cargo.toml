@@ -1,6 +1,6 @@
 [package]
 name = "bliss-analyser"
-version = "0.2.4.1"
+version = "0.2.5"
 authors = ["Craig Drummond (dd900 fork)"]
 edition = "2024"
 license = "GPL-3.0-only"
