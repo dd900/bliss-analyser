@@ -75,7 +75,7 @@ pub fn upload_db(db_path: &String, lms: &String, lms_port: &String) {
                     .send(buffered_reader) {
                     Ok(_) => {
                         log::info!("Database uploaded");
-                        stop_mixer(lms);
+                        stop_mixer(lms, lms_port);
                     }
                     Err(e) => { fail(&format!("Failed to upload database. {}", e)); }
                 }
