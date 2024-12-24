@@ -1,8 +1,3 @@
-0.2.4.1
------
-1. LMS port can be configured in INI (port=9000)
-2. LMS port can be configured via cmd line (-p or --port)
-
 0.2.4
 -----
 1. Add support for (DSD) WavPack - thanks to Bart Lauret
