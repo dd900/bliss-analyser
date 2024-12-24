@@ -32,6 +32,7 @@ fn main() {
     let mut dry_run: bool = false;
     let mut task = "".to_string();
     let mut lms_host = "127.0.0.1".to_string();
+	let mut lms_host_port = "9000".to_string();
     let mut max_num_files: usize = 0;
     let mut music_paths: Vec<PathBuf> = Vec::new();
     let mut max_threads: usize = 0;
@@ -50,6 +51,7 @@ fn main() {
         let logging_help = format!("Log level; trace, debug, info, warn, error. (default: {})", logging);
         let ignore_file_help = format!("File contains items to mark as ignored. (default: {})", ignore_file);
         let lms_host_help = format!("LMS hostname or IP address (default: {})", &lms_host);
+		let lms_port_help = format!("LMS host port (default: {})", &lms_host_port);
         let description = format!("Bliss Analyser v{}", VERSION);
 
         // arg_parse.refer 'borrows' db_path, etc, and can only have one
@@ -64,6 +66,7 @@ fn main() {
         arg_parse.refer(&mut dry_run).add_option(&["-r", "--dry-run"], StoreTrue, "Dry run, only show what needs to be done (used with analyse task)");
         arg_parse.refer(&mut ignore_file).add_option(&["-i", "--ignore"], Store, &ignore_file_help);
         arg_parse.refer(&mut lms_host).add_option(&["-L", "--lms"], Store, &lms_host_help);
+		arg_parse.refer(&mut lms_host_port).add_option(&["-p", "--port"], Store, &lms_port_help);
         arg_parse.refer(&mut max_num_files).add_option(&["-n", "--numfiles"], Store, "Maximum number of files to analyse");
         arg_parse.refer(&mut max_threads).add_option(&["-t", "--threads"], Store, "Maximum number of threads to use for analysis");
         arg_parse.refer(&mut task).add_argument("task", Store, "Task to perform; analyse, tags, ignore, upload, stopmixer.");
@@ -117,6 +120,10 @@ fn main() {
                         Some(val) => { ignore_file = val; }
                         None => { }
                     }
+					match config.get(TOP_LEVEL_INI_TAG, "port") {
+                        Some(val) => { lms_host_port = val; }
+                        None => { }
+                    }
                 }
                 Err(e) => {
                     log::error!("Failed to load config file. {}", e);
@@ -131,7 +138,7 @@ fn main() {
     }
 
     if task.eq_ignore_ascii_case("stopmixer") {
-        upload::stop_mixer(&lms_host);
+        upload::stop_mixer(&lms_host, &lms_host_port);
     } else {
         if db_path.len() < 3 {
             log::error!("Invalid DB path ({}) supplied", db_path);
@@ -146,7 +153,7 @@ fn main() {
 
         if task.eq_ignore_ascii_case("upload") {
             if path.exists() {
-                upload::upload_db(&db_path, &lms_host);
+                upload::upload_db(&db_path, &lms_host, &lms_host_port);
             } else {
                 log::error!("DB ({}) does not exist", db_path);
                 process::exit(-1);
